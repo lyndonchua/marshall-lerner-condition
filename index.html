@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marshal-Lerner Condition Student App</title>
+  <style>
+    :root{
+      --bg1:#eef7ff; --bg2:#fff7ed; --ink:#152033; --muted:#64748b; --card:#ffffff;
+      --line:#e5e7eb; --blue:#2563eb; --purple:#7c3aed; --green:#16a34a; --red:#dc2626;
+      --orange:#f97316; --yellow:#facc15; --soft-blue:#eff6ff; --soft-green:#ecfdf5;
+      --soft-red:#fef2f2; --soft-orange:#fff7ed; --shadow:0 18px 45px rgba(15,23,42,.10);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:radial-gradient(circle at top left,#dbeafe,transparent 34rem),radial-gradient(circle at top right,#ffedd5,transparent 34rem),linear-gradient(135deg,var(--bg1),var(--bg2));min-height:100vh}
+    button,input{font:inherit}
+    .app{max-width:1220px;margin:0 auto;padding:22px}
+    .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;align-items:stretch;margin-bottom:16px}
+    .hero-main,.teacher-card,.panel{background:rgba(255,255,255,.88);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow);border-radius:28px}
+    .hero-main{padding:26px;position:relative;overflow:hidden}
+    .hero-main:after{content:"";position:absolute;right:-80px;top:-80px;width:220px;height:220px;border-radius:999px;background:linear-gradient(135deg,#93c5fd,#fed7aa);opacity:.55}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#111827;color:white;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}
+    h1{font-size:clamp(30px,4vw,52px);line-height:1.02;letter-spacing:-.055em;margin:14px 0 12px;max-width:780px}
+    .subtitle{font-size:17px;line-height:1.55;color:#334155;max-width:780px;margin:0}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .pill-btn{border:0;border-radius:999px;padding:11px 15px;background:#0f172a;color:white;font-weight:850;cursor:pointer;box-shadow:0 10px 25px rgba(15,23,42,.16)}
+    .pill-btn.secondary{background:white;color:#172033;border:1px solid var(--line);box-shadow:none}
+    .teacher-card{padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+    .big-result{border-radius:24px;padding:18px;background:linear-gradient(135deg,#eef2ff,#fff);border:1px solid #e0e7ff}
+    .big-result .label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#475569;font-weight:900}.big-result .answer{font-size:31px;font-weight:950;letter-spacing:-.04em;margin-top:6px}.big-result .explain{color:#475569;line-height:1.45;margin-top:6px;font-size:14px}
+    .mode-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+    .mode{border:1px solid var(--line);background:white;border-radius:22px;padding:15px;text-align:left;cursor:pointer;box-shadow:0 10px 28px rgba(15,23,42,.06);transition:.18s transform,.18s border-color,.18s box-shadow}
+    .mode:hover{transform:translateY(-2px)}.mode.active{border-color:#2563eb;box-shadow:0 14px 34px rgba(37,99,235,.18);background:#eff6ff}.mode b{display:block;font-size:18px}.mode span{display:block;font-size:13px;color:var(--muted);margin-top:4px;line-height:1.35}
+    .layout{display:grid;grid-template-columns:365px 1fr;gap:16px;align-items:start}.panel{padding:18px}.sticky{position:sticky;top:16px}.panel-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-title h2{font-size:19px;margin:0;letter-spacing:-.02em}.tag{font-size:12px;font-weight:850;color:#1d4ed8;background:#dbeafe;border-radius:999px;padding:6px 9px}
+    .control{padding:15px 0;border-top:1px solid var(--line)}.control:first-of-type{border-top:0}.control label{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;font-size:14px;font-weight:900}.control small{display:block;color:var(--muted);font-weight:600;line-height:1.35;margin-top:3px}.value-bubble{background:#eef2ff;color:#3730a3;border-radius:999px;padding:6px 9px;font-size:13px;font-weight:950;white-space:nowrap}input[type=range]{width:100%;accent-color:var(--blue);margin-top:12px}.preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.preset{border:1px solid var(--line);background:#fff;border-radius:15px;padding:10px;cursor:pointer;font-size:13px;font-weight:850}.preset:hover{border-color:#2563eb;color:#1d4ed8}.note{font-size:13px;color:#64748b;line-height:1.45;background:#f8fafc;border:1px solid var(--line);padding:12px;border-radius:16px;margin-top:12px}
+    .story{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}.story-card{border-radius:22px;border:1px solid var(--line);background:#fff;padding:15px;min-height:122px}.story-card .num{width:32px;height:32px;border-radius:12px;display:grid;place-items:center;background:#0f172a;color:white;font-weight:950}.story-card h3{margin:10px 0 6px;font-size:16px}.story-card p{margin:0;color:#475569;font-size:13px;line-height:1.4}
+    .scoreboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.score{border:1px solid var(--line);background:#fff;border-radius:22px;padding:15px}.score .name{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#64748b;font-weight:950}.score .num{font-size:30px;font-weight:950;letter-spacing:-.045em;margin-top:6px}.score .caption{font-size:12px;color:#64748b;margin-top:4px}.good{color:var(--green)}.bad{color:var(--red)}.warn{color:#b45309}
+    .trade-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.trade-card{border-radius:26px;border:1px solid var(--line);background:#fff;padding:16px;overflow:hidden}.trade-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.icon{width:44px;height:44px;border-radius:17px;display:grid;place-items:center;font-size:24px;background:#eff6ff}.trade-card.imports .icon{background:#fff7ed}.trade-head h3{margin:0;font-size:20px}.trade-head span{color:#64748b;font-size:13px}.bar-wrap{margin:13px 0}.bar-label{display:flex;justify-content:space-between;color:#475569;font-size:12px;font-weight:800;margin-bottom:6px}.bar-bg{height:14px;background:#f1f5f9;border-radius:999px;overflow:hidden}.bar{height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,#60a5fa,#2563eb);transition:width .35s ease}.imports .bar{background:linear-gradient(90deg,#fdba74,#f97316)}.trade-line{display:grid;grid-template-columns:1fr auto;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}.trade-line:first-of-type{border-top:0}.trade-line b{font-weight:950}.trade-line span:first-child{color:#64748b}.money{font-size:25px;font-weight:950;letter-spacing:-.04em}
+    .answer-box{margin-top:14px;border-radius:26px;padding:18px;border:1px solid var(--line);background:#fff}.answer-box.met{background:var(--soft-green);border-color:#bbf7d0}.answer-box.notmet{background:var(--soft-red);border-color:#fecaca}.answer-box.reverse{background:#fff7ed;border-color:#fed7aa}.answer-box h2{margin:0 0 8px;font-size:22px}.answer-box p{margin:0;color:#334155;line-height:1.55}.formula{margin-top:12px;background:#111827;color:white;border-radius:18px;padding:13px 15px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;overflow:auto}
+    .exam{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.exam-card{border:1px solid var(--line);background:white;border-radius:24px;padding:16px}.exam-card h3{margin:0 0 10px}.exam-card ul{margin:0;padding-left:20px;color:#475569;line-height:1.55;font-size:14px}.flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.flow span{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:8px 10px;font-size:13px;font-weight:850}.arrow{color:#94a3b8;font-weight:900}
+    table{width:100%;border-collapse:separate;border-spacing:0;margin-top:14px;overflow:hidden;border-radius:20px;border:1px solid var(--line);font-size:14px;background:white}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.06em}tr:last-child td{border-bottom:0}.right{text-align:right}.mobile-only{display:none}
+    @media(max-width:980px){.hero,.layout,.trade-grid,.exam{grid-template-columns:1fr}.sticky{position:static}.story,.scoreboard{grid-template-columns:1fr 1fr}.mode-row{grid-template-columns:1fr}}
+    @media(max-width:620px){.app{padding:14px}.hero-main,.teacher-card,.panel{border-radius:22px}.story,.scoreboard{grid-template-columns:1fr}.preset-grid{grid-template-columns:1fr}.desktop-only{display:none}.mobile-only{display:block}.trade-line{grid-template-columns:1fr}.right{text-align:left}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">🌏 Exchange rate simulator</div>
+        <h1>Will depreciation actually improve the trade balance?</h1>
+        <p class="subtitle">A student-friendly Marshal-Lerner app. Move the sliders and watch the story: exchange rate changes prices, prices change quantities, and the balance of trade changes only if demand is responsive enough.</p>
+        <div class="hero-actions">
+          <button class="pill-btn" onclick="document.getElementById('controls').scrollIntoView()">Start with sliders</button>
+          <button class="pill-btn secondary" onclick="preset('exam')">Use exam-friendly example</button>
+          <button class="pill-btn secondary" onclick="preset('notmet')">Show why MLC fails</button>
+        </div>
+      </div>
+      <aside class="teacher-card">
+        <div class="big-result" id="heroResult">
+          <div class="label">Current conclusion</div>
+          <div class="answer" id="heroAnswer">MLC borderline</div>
+          <div class="explain" id="heroExplain">Change the sliders to see whether BOT improves or worsens.</div>
+        </div>
+        <div class="note"><b>Memory hook:</b> MLC is about whether the <b>quantity effect</b> is strong enough to beat the <b>price effect</b>.</div>
+      </aside>
+    </section>
+
+    <div class="mode-row">
+      <button class="mode active" id="depMode" onclick="setMode('depreciation')"><b>SGD depreciates</b><span>Exports cheaper to foreigners; imports more expensive to Singapore consumers.</span></button>
+      <button class="mode" id="appMode" onclick="setMode('appreciation')"><b>SGD appreciates</b><span>Exports more expensive to foreigners; imports cheaper to Singapore consumers.</span></button>
+    </div>
+
+    <div class="layout">
+      <aside class="panel sticky" id="controls">
+        <div class="panel-title"><h2>1. Set the scenario</h2><span class="tag">interactive</span></div>
+        <div class="control">
+          <label><span>Exchange rate change<small id="erHint">How much the SGD depreciates.</small></span><span class="value-bubble" id="erVal">10%</span></label>
+          <input id="er" type="range" min="1" max="40" step="1" value="10" oninput="calc()">
+        </div>
+        <div class="control">
+          <label><span>Export quantity response<small>How strongly foreigners buy more Singapore exports.</small></span><span class="value-bubble" id="xqVal">22%</span></label>
+          <input id="xq" type="range" min="0" max="60" step="1" value="22" oninput="calc()">
+        </div>
+        <div class="control">
+          <label><span>Import quantity response<small>How strongly Singapore consumers buy fewer imports.</small></span><span class="value-bubble" id="mqVal">18%</span></label>
+          <input id="mq" type="range" min="0" max="60" step="1" value="18" oninput="calc()">
+        </div>
+        <div class="preset-grid">
+          <button class="preset" onclick="preset('exam')">✅ MLC met</button>
+          <button class="preset" onclick="preset('notmet')">❌ MLC not met</button>
+          <button class="preset" onclick="preset('border')">⚖️ Borderline</button>
+          <button class="preset" onclick="preset('strong')">🚀 Very elastic</button>
+        </div>
+        <div class="note">Assumption: initial price and quantity are both indexed at 100. Revenue/expenditure is calculated as price × quantity ÷ 100.</div>
+      </aside>
+
+      <main>
+        <section class="panel">
+          <div class="story">
+            <div class="story-card"><div class="num">1</div><h3>Price changes</h3><p id="story1">Depreciation makes exports cheaper and imports dearer.</p></div>
+            <div class="story-card"><div class="num">2</div><h3>Quantity responds</h3><p id="story2">Foreigners buy more exports; locals buy fewer imports.</p></div>
+            <div class="story-card"><div class="num">3</div><h3>BOT changes</h3><p id="story3">The trade balance improves only if PEDx + PEDm &gt; 1.</p></div>
+          </div>
+
+          <div class="scoreboard">
+            <div class="score"><div class="name">PEDx</div><div class="num" id="pedx">2.20</div><div class="caption">export demand</div></div>
+            <div class="score"><div class="name">PEDm</div><div class="num" id="pedm">1.62</div><div class="caption">import demand</div></div>
+            <div class="score"><div class="name">PEDx + PEDm</div><div class="num" id="sum">3.82</div><div class="caption">must be above 1</div></div>
+            <div class="score"><div class="name">BOT change</div><div class="num" id="botChange">+5.8</div><div class="caption" id="botCaption">improves</div></div>
+          </div>
+
+          <div class="trade-grid">
+            <div class="trade-card exports">
+              <div class="trade-head"><div><h3>Exports</h3><span>Singapore sells to overseas buyers</span></div><div class="icon">📦</div></div>
+              <div class="bar-wrap"><div class="bar-label"><span>Foreign price</span><b id="xPriceText">100 → 90</b></div><div class="bar-bg"><div class="bar" id="xPriceBar"></div></div></div>
+              <div class="bar-wrap"><div class="bar-label"><span>Quantity sold</span><b id="xQtyText">100 → 122</b></div><div class="bar-bg"><div class="bar" id="xQtyBar"></div></div></div>
+              <div class="trade-line"><span>Export revenue</span><b class="money" id="xRevenue">109.8</b></div>
+            </div>
+            <div class="trade-card imports">
+              <div class="trade-head"><div><h3>Imports</h3><span>Singapore buys from overseas sellers</span></div><div class="icon">🛒</div></div>
+              <div class="bar-wrap"><div class="bar-label"><span>Domestic price</span><b id="mPriceText">100 → 111.1</b></div><div class="bar-bg"><div class="bar" id="mPriceBar"></div></div></div>
+              <div class="bar-wrap"><div class="bar-label"><span>Quantity bought</span><b id="mQtyText">100 → 82</b></div><div class="bar-bg"><div class="bar" id="mQtyBar"></div></div></div>
+              <div class="trade-line"><span>Import expenditure</span><b class="money" id="mExpenditure">91.1</b></div>
+            </div>
+          </div>
+
+          <div class="answer-box" id="answerBox">
+            <h2 id="answerTitle">Conclusion</h2>
+            <p id="answerText"></p>
+            <div class="formula" id="formula"></div>
+          </div>
+
+          <div class="exam">
+            <div class="exam-card">
+              <h3>How to write this in an essay</h3>
+              <div class="flow" id="flowLine"></div>
+            </div>
+            <div class="exam-card">
+              <h3>Key exam wording</h3>
+              <ul id="examWords"></ul>
+            </div>
+          </div>
+
+          <table class="desktop-only">
+            <thead><tr><th>Component</th><th class="right">Before</th><th class="right">After</th><th class="right">Effect</th></tr></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </div>
+<script>
+  let mode = 'depreciation';
+  const $ = id => document.getElementById(id);
+  const f = (n,d=1) => Number(n).toFixed(d);
+  function setMode(next){
+    mode = next;
+    $('depMode').classList.toggle('active', mode==='depreciation');
+    $('appMode').classList.toggle('active', mode==='appreciation');
+    $('erHint').textContent = mode==='depreciation' ? 'How much the SGD depreciates.' : 'How much the SGD appreciates.';
+    calc();
+  }
+  function preset(type){
+    const er=$('er'), xq=$('xq'), mq=$('mq');
+    if(type==='exam'){er.value=10;xq.value=22;mq.value=18;}
+    if(type==='notmet'){er.value=10;xq.value=3;mq.value=3;}
+    if(type==='border'){er.value=10;xq.value=5;mq.value=5;}
+    if(type==='strong'){er.value=10;xq.value=35;mq.value=30;}
+    calc();
+  }
+  function bar(id,value){ $(id).style.width = Math.max(8,Math.min(100,value)) + '%'; }
+  function cls(n){return n>0?'good':n<0?'bad':'warn'}
+  function calc(){
+    const er=+$('er').value, xq=+$('xq').value, mq=+$('mq').value;
+    $('erVal').textContent=er+'%'; $('xqVal').textContent=xq+'%'; $('mqVal').textContent=mq+'%';
+    const base=100;
+    let xPrice, mPrice, xQty, mQty, xPricePct, mPricePct;
+    if(mode==='depreciation'){
+      xPrice = base*(1-er/100);             // foreign price of exports falls
+      mPrice = base/(1-er/100);             // domestic price of imports rises
+      xQty = base*(1+xq/100);
+      mQty = base*(1-mq/100);
+      $('story1').textContent='SGD depreciation makes exports cheaper to foreigners and imports more expensive to Singapore consumers.';
+      $('story2').textContent='Foreigners buy more Singapore exports, while Singapore consumers buy fewer imports.';
+      $('story3').textContent='BOT improves only if the quantity effect is stronger than the price effect.';
+    }else{
+      xPrice = base*(1+er/100);             // foreign price of exports rises
+      mPrice = base/(1+er/100);             // domestic price of imports falls
+      xQty = base*(1-xq/100);
+      mQty = base*(1+mq/100);
+      $('story1').textContent='SGD appreciation makes exports more expensive to foreigners and imports cheaper to Singapore consumers.';
+      $('story2').textContent='Foreigners buy fewer Singapore exports, while Singapore consumers buy more imports.';
+      $('story3').textContent='For appreciation, the logic works in reverse: if demand is elastic, BOT tends to worsen.';
+    }
+    xPricePct = Math.abs((xPrice-base)/base*100);
+    mPricePct = Math.abs((mPrice-base)/base*100);
+    const pedx = er===0?0:xq/er;
+    const pedm = mPricePct===0?0:mq/mPricePct;
+    const sum = pedx+pedm;
+    const xRevenue = (xPrice/base)*xQty;      // price × quantity, indexed to 100
+    const mExpenditure = (mPrice/base)*mQty;  // price × quantity, indexed to 100
+    const botBefore = 0;
+    const botAfter = xRevenue - mExpenditure;
+    const met = sum>1.0001;
+    const border = Math.abs(sum-1)<0.02;
+
+    $('pedx').textContent=f(pedx,2); $('pedm').textContent=f(pedm,2); $('sum').textContent=f(sum,2);
+    $('sum').className='num '+(met?'good':border?'warn':'bad');
+    $('botChange').textContent=(botAfter>=0?'+':'')+f(botAfter,1); $('botChange').className='num '+cls(botAfter);
+    $('botCaption').textContent=botAfter>0?'improves':botAfter<0?'worsens':'unchanged';
+
+    $('xPriceText').textContent=`100 → ${f(xPrice,1)}`; $('mPriceText').textContent=`100 → ${f(mPrice,1)}`;
+    $('xQtyText').textContent=`100 → ${f(xQty,1)}`; $('mQtyText').textContent=`100 → ${f(mQty,1)}`;
+    $('xRevenue').textContent=f(xRevenue,1); $('mExpenditure').textContent=f(mExpenditure,1);
+    bar('xPriceBar',xPrice); bar('mPriceBar',mPrice); bar('xQtyBar',xQty); bar('mQtyBar',mQty);
+
+    const conditionText = met ? 'MLC met' : border ? 'Borderline' : 'MLC not met';
+    $('heroAnswer').textContent = conditionText;
+    $('heroExplain').textContent = `PEDx + PEDm = ${f(sum,2)}. BOT ${botAfter>0?'improves':botAfter<0?'worsens':'is unchanged'} from 0 to ${f(botAfter,1)}.`;
+
+    const box=$('answerBox'); box.className='answer-box '+(mode==='appreciation'?'reverse':met?'met':'notmet');
+    if(mode==='depreciation'){
+      $('answerTitle').textContent = botAfter > 0.05 ? 'Depreciation improves BOT' : botAfter < -0.05 ? 'Depreciation worsens BOT' : 'Depreciation leaves BOT about unchanged';
+      $('answerText').innerHTML = botAfter > 0.05
+        ? 'Using price × quantity, export revenue rises relative to import expenditure, so the balance of trade improves.'
+        : botAfter < -0.05
+          ? 'Using price × quantity, export revenue is not high enough relative to import expenditure, so the balance of trade worsens.'
+          : 'Using price × quantity, export revenue and import expenditure change by about the same amount, so the balance of trade is broadly unchanged.';
+    }else{
+      $('answerTitle').textContent = met ? 'Appreciation is likely to worsen BOT' : 'Appreciation may not worsen BOT much';
+      $('answerText').innerHTML = met
+        ? 'When demand is elastic, appreciation strongly reduces export quantity and raises import quantity, so the balance of trade tends to worsen.'
+        : 'When demand is inelastic, quantities respond weakly, so the effect on the balance of trade is smaller.';
+    }
+    $('formula').innerHTML = `Marshal-Lerner Condition: |PEDx| + |PEDm| &gt; 1<br>Current: ${f(pedx,2)} + ${f(pedm,2)} = ${f(sum,2)} → <b>${conditionText}</b><br>BOT = Export Revenue − Import Expenditure = ${f(xRevenue,1)} − ${f(mExpenditure,1)} = <b>${f(botAfter,1)}</b><br>Export revenue = ${f(xPrice,1)} × ${f(xQty,1)} ÷ 100 = ${f(xRevenue,1)}<br>Import expenditure = ${f(mPrice,1)} × ${f(mQty,1)} ÷ 100 = ${f(mExpenditure,1)}`;
+
+    $('flowLine').innerHTML = mode==='depreciation'
+      ? '<span>SGD depreciates</span><b class="arrow">→</b><span>X cheaper, M dearer</span><b class="arrow">→</b><span>Qx rises, Qm falls</span><b class="arrow">→</b><span>PEDx + PEDm decides BOT</span>'
+      : '<span>SGD appreciates</span><b class="arrow">→</b><span>X dearer, M cheaper</span><b class="arrow">→</b><span>Qx falls, Qm rises</span><b class="arrow">→</b><span>BOT likely worsens if MLC met</span>';
+    $('examWords').innerHTML = mode==='depreciation'
+      ? '<li>State the condition: <b>|PEDx| + |PEDm| &gt; 1</b>.</li><li>Explain the <b>price effect</b> first.</li><li>Then explain the <b>quantity effect</b>.</li><li>Conclude whether export revenue rises relative to import expenditure.</li>'
+      : '<li>For appreciation, apply the Marshal-Lerner logic in reverse.</li><li>Exports become less price competitive.</li><li>Imports become cheaper to domestic consumers.</li><li>If demand is elastic, BOT is more likely to worsen.</li>';
+    $('tableBody').innerHTML = `
+      <tr><td><b>Export price to foreigners</b></td><td class="right">100</td><td class="right">${f(xPrice,1)}</td><td class="right ${xPrice<100?'good':'bad'}">${xPrice<100?'cheaper':'dearer'}</td></tr>
+      <tr><td><b>Export quantity</b></td><td class="right">100</td><td class="right">${f(xQty,1)}</td><td class="right ${xQty>100?'good':'bad'}">${xQty>100?'rises':'falls'}</td></tr>
+      <tr><td><b>Import price to locals</b></td><td class="right">100</td><td class="right">${f(mPrice,1)}</td><td class="right ${mPrice>100?'bad':'good'}">${mPrice>100?'dearer':'cheaper'}</td></tr>
+      <tr><td><b>Import quantity</b></td><td class="right">100</td><td class="right">${f(mQty,1)}</td><td class="right ${mQty<100?'good':'bad'}">${mQty<100?'falls':'rises'}</td></tr>`;
+  }
+  calc();
+</script>
+</body>
+</html>
