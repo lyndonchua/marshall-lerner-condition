@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marshal-Lerner Condition Student App</title>
+  <title>Marshal-Lerner Trade Quest</title>
   <style>
     :root{
       --bg1:#eef7ff; --bg2:#fff7ed; --ink:#152033; --muted:#64748b; --card:#ffffff;
@@ -40,30 +40,36 @@
     .answer-box{margin-top:14px;border-radius:26px;padding:18px;border:1px solid var(--line);background:#fff}.answer-box.met{background:var(--soft-green);border-color:#bbf7d0}.answer-box.notmet{background:var(--soft-red);border-color:#fecaca}.answer-box.reverse{background:#fff7ed;border-color:#fed7aa}.answer-box h2{margin:0 0 8px;font-size:22px}.answer-box p{margin:0;color:#334155;line-height:1.55}.formula{margin-top:12px;background:#111827;color:white;border-radius:18px;padding:13px 15px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;overflow:auto}
     .exam{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.exam-card{border:1px solid var(--line);background:white;border-radius:24px;padding:16px}.exam-card h3{margin:0 0 10px}.exam-card ul{margin:0;padding-left:20px;color:#475569;line-height:1.55;font-size:14px}.flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.flow span{background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:8px 10px;font-size:13px;font-weight:850}.arrow{color:#94a3b8;font-weight:900}
     table{width:100%;border-collapse:separate;border-spacing:0;margin-top:14px;overflow:hidden;border-radius:20px;border:1px solid var(--line);font-size:14px;background:white}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.06em}tr:last-child td{border-bottom:0}.right{text-align:right}.mobile-only{display:none}
-    @media(max-width:980px){.hero,.layout,.trade-grid,.exam{grid-template-columns:1fr}.sticky{position:static}.story,.scoreboard{grid-template-columns:1fr 1fr}.mode-row{grid-template-columns:1fr}}
-    @media(max-width:620px){.app{padding:14px}.hero-main,.teacher-card,.panel{border-radius:22px}.story,.scoreboard{grid-template-columns:1fr}.preset-grid{grid-template-columns:1fr}.desktop-only{display:none}.mobile-only{display:block}.trade-line{grid-template-columns:1fr}.right{text-align:left}}
+
+    .xp{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.xp-label{display:flex;justify-content:space-between;font-size:12px;font-weight:950;color:#475569;margin-bottom:8px}.xp-bar{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden}.xp-bar div{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#84cc16,#facc15);border-radius:999px;transition:.35s ease}
+    .mission{margin-bottom:14px;border-radius:28px;padding:16px;background:linear-gradient(135deg,#312e81,#7c3aed,#f97316);color:white;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;box-shadow:0 18px 45px rgba(88,28,135,.22)}.mascot{font-size:42px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.25));animation:bob 2.2s ease-in-out infinite}.mission h2{margin:0 0 4px;font-size:20px}.mission p{margin:0;opacity:.92;line-height:1.35;font-size:14px}.mission-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:10px 12px;font-weight:950;text-align:center;min-width:110px}.mission-badge small{display:block;font-size:11px;opacity:.86;font-weight:800}@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+    .challenge-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.challenge{border:1px solid #fde68a;background:#fffbeb;border-radius:15px;padding:10px;cursor:pointer;font-size:13px;font-weight:900;text-align:left}.challenge:hover{border-color:#f97316;color:#c2410c;transform:translateY(-1px)}
+    .fun-card{margin-top:14px;border:1px solid var(--line);background:linear-gradient(135deg,#f8fafc,#ffffff);border-radius:24px;padding:16px}.fun-card h3{margin:0 0 10px}.mini-quiz{display:grid;gap:10px}.quiz-buttons{display:flex;flex-wrap:wrap;gap:8px}.quiz-buttons button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-weight:900;cursor:pointer}.quiz-buttons button:hover{border-color:#7c3aed;color:#6d28d9}.quiz-feedback{font-weight:900;min-height:24px}.spark{position:fixed;pointer-events:none;font-size:22px;animation:pop 900ms ease-out forwards;z-index:9999}@keyframes pop{0%{transform:translate(-50%,-50%) scale(.4);opacity:1}100%{transform:translate(-50%,-140%) scale(1.6);opacity:0}}
+
+    @media(max-width:980px){.hero,.layout,.trade-grid,.exam,.mission{grid-template-columns:1fr}.sticky{position:static}.story,.scoreboard{grid-template-columns:1fr 1fr}.mode-row{grid-template-columns:1fr}}
+    @media(max-width:620px){.app{padding:14px}.challenge-row{grid-template-columns:1fr}.mission-badge{text-align:left}.hero-main,.teacher-card,.panel{border-radius:22px}.story,.scoreboard{grid-template-columns:1fr}.preset-grid{grid-template-columns:1fr}.desktop-only{display:none}.mobile-only{display:block}.trade-line{grid-template-columns:1fr}.right{text-align:left}}
   </style>
 </head>
 <body>
   <div class="app">
     <section class="hero">
       <div class="hero-main">
-        <div class="eyebrow">🌏 Exchange rate simulator</div>
-        <h1>Will depreciation actually improve the trade balance?</h1>
-        <p class="subtitle">A student-friendly Marshal-Lerner app. Move the sliders and watch the story: exchange rate changes prices, prices change quantities, and the balance of trade changes only if demand is responsive enough.</p>
+        <div class="eyebrow">🎮 Trade Quest: Marshal-Lerner</div>
+        <h1>Can you rescue the trade balance?</h1>
+        <p class="subtitle">A game-style app for 17-year-olds. Pick a mission, move the sliders, and beat the Price Boss by making the quantity effect strong enough.</p>
         <div class="hero-actions">
-          <button class="pill-btn" onclick="document.getElementById('controls').scrollIntoView()">Start with sliders</button>
-          <button class="pill-btn secondary" onclick="preset('exam')">Use exam-friendly example</button>
-          <button class="pill-btn secondary" onclick="preset('notmet')">Show why MLC fails</button>
+          <button class="pill-btn" onclick="document.getElementById('controls').scrollIntoView()">Start mission</button>
+          <button class="pill-btn secondary" onclick="preset('exam')">Load easy win</button>
+          <button class="pill-btn secondary" onclick="preset('notmet')">Show fail case</button>
         </div>
       </div>
       <aside class="teacher-card">
         <div class="big-result" id="heroResult">
-          <div class="label">Current conclusion</div>
+          <div class="label">Mission status</div>
           <div class="answer" id="heroAnswer">MLC borderline</div>
-          <div class="explain" id="heroExplain">Change the sliders to see whether BOT improves or worsens.</div>
+          <div class="explain" id="heroExplain">Move the sliders to level up your trade score.</div>
         </div>
-        <div class="note"><b>Memory hook:</b> MLC is about whether the <b>quantity effect</b> is strong enough to beat the <b>price effect</b>.</div>
+        <div class="note"><b>Game rule:</b> MLC is won when the <b>quantity effect</b> is strong enough to defeat the <b>price effect</b>.</div><div class="xp"><div class="xp-label"><span>Trade Hero XP</span><b id="xpText">0/100</b></div><div class="xp-bar"><div id="xpFill"></div></div></div>
       </aside>
     </section>
 
@@ -80,12 +86,12 @@
           <input id="er" type="range" min="1" max="40" step="1" value="10" oninput="calc()">
         </div>
         <div class="control">
-          <label><span>Export quantity response<small>How strongly foreigners buy more Singapore exports.</small></span><span class="value-bubble" id="xqVal">22%</span></label>
-          <input id="xq" type="range" min="0" max="60" step="1" value="22" oninput="calc()">
+          <label><span>Export quantity response<small>How strongly foreigners buy more Singapore exports.</small></span><span class="value-bubble" id="xqVal">12%</span></label>
+          <input id="xq" type="range" min="0" max="60" step="1" value="12" oninput="calc()">
         </div>
         <div class="control">
-          <label><span>Import quantity response<small>How strongly Singapore consumers buy fewer imports.</small></span><span class="value-bubble" id="mqVal">18%</span></label>
-          <input id="mq" type="range" min="0" max="60" step="1" value="18" oninput="calc()">
+          <label><span>Import quantity response<small>How strongly Singapore consumers buy fewer imports.</small></span><span class="value-bubble" id="mqVal">8%</span></label>
+          <input id="mq" type="range" min="0" max="60" step="1" value="8" oninput="calc()">
         </div>
         <div class="preset-grid">
           <button class="preset" onclick="preset('exam')">✅ MLC met</button>
@@ -93,11 +99,21 @@
           <button class="preset" onclick="preset('border')">⚖️ Borderline</button>
           <button class="preset" onclick="preset('strong')">🚀 Very elastic</button>
         </div>
-        <div class="note">Assumption: initial price and quantity are both indexed at 100. Revenue/expenditure is calculated as price × quantity ÷ 100.</div>
+        <div class="note">Assumption: initial export revenue and import expenditure are both 100. Revenue and expenditure are calculated as <b>price × quantity ÷ 100</b>.</div>
+        <div class="challenge-row">
+          <button class="challenge" onclick="challenge('rescue')">🦸 Rescue BOT</button>
+          <button class="challenge" onclick="challenge('boss')">👾 Price Boss</button>
+          <button class="challenge" onclick="challenge('speed')">⚡ Quick Test</button>
+        </div>
       </aside>
 
       <main>
         <section class="panel">
+          <div class="mission">
+            <div class="mascot" id="mascot">🦸‍♂️</div>
+            <div><h2 id="missionTitle">Mission: beat the Price Boss</h2><p id="missionText">Make PEDx + PEDm greater than 1. Then depreciation can improve the balance of trade.</p></div>
+            <div class="mission-badge"><small>Level</small><span id="levelText">Rookie</span></div>
+          </div>
           <div class="story">
             <div class="story-card"><div class="num">1</div><h3>Price changes</h3><p id="story1">Depreciation makes exports cheaper and imports dearer.</p></div>
             <div class="story-card"><div class="num">2</div><h3>Quantity responds</h3><p id="story2">Foreigners buy more exports; locals buy fewer imports.</p></div>
@@ -105,24 +121,24 @@
           </div>
 
           <div class="scoreboard">
-            <div class="score"><div class="name">PEDx</div><div class="num" id="pedx">2.20</div><div class="caption">export demand</div></div>
-            <div class="score"><div class="name">PEDm</div><div class="num" id="pedm">1.62</div><div class="caption">import demand</div></div>
-            <div class="score"><div class="name">PEDx + PEDm</div><div class="num" id="sum">3.82</div><div class="caption">must be above 1</div></div>
-            <div class="score"><div class="name">BOT change</div><div class="num" id="botChange">+5.8</div><div class="caption" id="botCaption">improves</div></div>
+            <div class="score"><div class="name">PEDx</div><div class="num" id="pedx">1.20</div><div class="caption">export demand</div></div>
+            <div class="score"><div class="name">PEDm</div><div class="num" id="pedm">0.73</div><div class="caption">import demand</div></div>
+            <div class="score"><div class="name">PEDx + PEDm</div><div class="num" id="sum">1.93</div><div class="caption">must be above 1</div></div>
+            <div class="score"><div class="name">BOT change</div><div class="num" id="botChange">+5.6</div><div class="caption" id="botCaption">improves</div></div>
           </div>
 
           <div class="trade-grid">
             <div class="trade-card exports">
               <div class="trade-head"><div><h3>Exports</h3><span>Singapore sells to overseas buyers</span></div><div class="icon">📦</div></div>
               <div class="bar-wrap"><div class="bar-label"><span>Foreign price</span><b id="xPriceText">100 → 90</b></div><div class="bar-bg"><div class="bar" id="xPriceBar"></div></div></div>
-              <div class="bar-wrap"><div class="bar-label"><span>Quantity sold</span><b id="xQtyText">100 → 122</b></div><div class="bar-bg"><div class="bar" id="xQtyBar"></div></div></div>
-              <div class="trade-line"><span>Export revenue</span><b class="money" id="xRevenue">109.8</b></div>
+              <div class="bar-wrap"><div class="bar-label"><span>Quantity sold</span><b id="xQtyText">100 → 112</b></div><div class="bar-bg"><div class="bar" id="xQtyBar"></div></div></div>
+              <div class="trade-line"><span>Export revenue</span><b class="money" id="xRevenue">100.0</b></div>
             </div>
             <div class="trade-card imports">
               <div class="trade-head"><div><h3>Imports</h3><span>Singapore buys from overseas sellers</span></div><div class="icon">🛒</div></div>
               <div class="bar-wrap"><div class="bar-label"><span>Domestic price</span><b id="mPriceText">100 → 111.1</b></div><div class="bar-bg"><div class="bar" id="mPriceBar"></div></div></div>
-              <div class="bar-wrap"><div class="bar-label"><span>Quantity bought</span><b id="mQtyText">100 → 82</b></div><div class="bar-bg"><div class="bar" id="mQtyBar"></div></div></div>
-              <div class="trade-line"><span>Import expenditure</span><b class="money" id="mExpenditure">91.1</b></div>
+              <div class="bar-wrap"><div class="bar-label"><span>Quantity bought</span><b id="mQtyText">100 → 92</b></div><div class="bar-bg"><div class="bar" id="mQtyBar"></div></div></div>
+              <div class="trade-line"><span>Import expenditure</span><b class="money" id="mExpenditure">102.2</b></div>
             </div>
           </div>
 
@@ -130,6 +146,19 @@
             <h2 id="answerTitle">Conclusion</h2>
             <p id="answerText"></p>
             <div class="formula" id="formula"></div>
+          </div>
+
+          <div class="fun-card">
+            <h3>30-second boss quiz</h3>
+            <div class="mini-quiz">
+              <div id="quizQuestion">If PEDx + PEDm is above 1 after depreciation, what happens to BOT?</div>
+              <div class="quiz-buttons">
+                <button onclick="quiz('improve')">BOT improves</button>
+                <button onclick="quiz('worsen')">BOT worsens</button>
+                <button onclick="quiz('same')">No change</button>
+              </div>
+              <div class="quiz-feedback" id="quizFeedback"></div>
+            </div>
           </div>
 
           <div class="exam">
@@ -164,11 +193,31 @@
   }
   function preset(type){
     const er=$('er'), xq=$('xq'), mq=$('mq');
-    if(type==='exam'){er.value=10;xq.value=22;mq.value=18;}
+    if(type==='exam'){er.value=10;xq.value=12;mq.value=8;}
     if(type==='notmet'){er.value=10;xq.value=3;mq.value=3;}
     if(type==='border'){er.value=10;xq.value=5;mq.value=5;}
-    if(type==='strong'){er.value=10;xq.value=35;mq.value=30;}
+    if(type==='strong'){er.value=10;xq.value=25;mq.value=22;}
     calc();
+    burst(type==='notmet'?'💥':type==='border'?'⚖️':'✨');
+  }
+  function challenge(type){
+    if(type==='rescue'){ mode='depreciation'; setMode('depreciation'); $('er').value=12; $('xq').value=18; $('mq').value=13; $('missionTitle').textContent='Mission: rescue BOT'; $('missionText').textContent='You made buyers respond strongly. The quantity effect should beat the price effect.'; }
+    if(type==='boss'){ mode='depreciation'; setMode('depreciation'); $('er').value=12; $('xq').value=2; $('mq').value=2; $('missionTitle').textContent='Mission: Price Boss wins'; $('missionText').textContent='Demand is too unresponsive. Watch why depreciation can fail.'; }
+    if(type==='speed'){ mode='appreciation'; setMode('appreciation'); $('er').value=10; $('xq').value=15; $('mq').value=12; $('missionTitle').textContent='Mission: reverse mode'; $('missionText').textContent='Now test appreciation. Strong quantity responses can worsen BOT.'; }
+    calc(); burst(type==='boss'?'👾':'🏆');
+  }
+  function quiz(ans){
+    const ok = mode==='depreciation' ? ans==='improve' : ans==='worsen';
+    $('quizFeedback').textContent = ok ? '✅ Correct. You defeated the Price Boss.' : '❌ Try again. Think: price effect first, quantity effect second.';
+    $('quizFeedback').className = 'quiz-feedback '+(ok?'good':'bad');
+    if(ok) burst('🎉');
+  }
+  function burst(symbol){
+    for(let i=0;i<10;i++){
+      const s=document.createElement('div'); s.className='spark'; s.textContent=symbol;
+      s.style.left=(50+(Math.random()*30-15))+'vw'; s.style.top=(22+(Math.random()*12-6))+'vh';
+      document.body.appendChild(s); setTimeout(()=>s.remove(),900);
+    }
   }
   function bar(id,value){ $(id).style.width = Math.max(8,Math.min(100,value)) + '%'; }
   function cls(n){return n>0?'good':n<0?'bad':'warn'}
@@ -199,8 +248,8 @@
     const pedx = er===0?0:xq/er;
     const pedm = mPricePct===0?0:mq/mPricePct;
     const sum = pedx+pedm;
-    const xRevenue = (xPrice/base)*xQty;      // price × quantity, indexed to 100
-    const mExpenditure = (mPrice/base)*mQty;  // price × quantity, indexed to 100
+    const xRevenue = 1*xQty;                 // export price in domestic currency assumed unchanged
+    const mExpenditure = (mPrice/base)*mQty;
     const botBefore = 0;
     const botAfter = xRevenue - mExpenditure;
     const met = sum>1.0001;
@@ -217,24 +266,26 @@
     bar('xPriceBar',xPrice); bar('mPriceBar',mPrice); bar('xQtyBar',xQty); bar('mQtyBar',mQty);
 
     const conditionText = met ? 'MLC met' : border ? 'Borderline' : 'MLC not met';
+    const xp = Math.max(0, Math.min(100, Math.round(sum*55)));
+    $('xpText').textContent = xp + '/100'; $('xpFill').style.width = xp + '%';
+    $('levelText').textContent = sum>=2 ? 'Trade Legend' : sum>1 ? 'BOT Hero' : border ? 'Almost there' : 'Rookie';
+    $('mascot').textContent = sum>=2 ? '🚀' : met ? '🦸‍♂️' : border ? '🤔' : '👾';
     $('heroAnswer').textContent = conditionText;
-    $('heroExplain').textContent = `PEDx + PEDm = ${f(sum,2)}. BOT ${botAfter>0?'improves':botAfter<0?'worsens':'is unchanged'} from 0 to ${f(botAfter,1)}.`;
+    $('heroExplain').textContent = `Power score = ${f(sum,2)}. BOT ${botAfter>0?'improves 🟢':botAfter<0?'worsens 🔴':'is unchanged 🟡'} from 0 to ${f(botAfter,1)}.`;
 
     const box=$('answerBox'); box.className='answer-box '+(mode==='appreciation'?'reverse':met?'met':'notmet');
     if(mode==='depreciation'){
-      $('answerTitle').textContent = botAfter > 0.05 ? 'Depreciation improves BOT' : botAfter < -0.05 ? 'Depreciation worsens BOT' : 'Depreciation leaves BOT about unchanged';
-      $('answerText').innerHTML = botAfter > 0.05
-        ? 'Using price × quantity, export revenue rises relative to import expenditure, so the balance of trade improves.'
-        : botAfter < -0.05
-          ? 'Using price × quantity, export revenue is not high enough relative to import expenditure, so the balance of trade worsens.'
-          : 'Using price × quantity, export revenue and import expenditure change by about the same amount, so the balance of trade is broadly unchanged.';
+      $('answerTitle').textContent = met ? 'Depreciation improves BOT' : border ? 'Depreciation leaves BOT about unchanged' : 'Depreciation may worsen BOT';
+      $('answerText').innerHTML = met
+        ? 'Because export and import demand are sufficiently price elastic, the rise in export quantity and fall in import quantity are strong enough to improve the balance of trade.'
+        : 'Because export and import demand are price inelastic overall, quantities respond weakly. The price effect dominates, so the balance of trade does not improve.';
     }else{
       $('answerTitle').textContent = met ? 'Appreciation is likely to worsen BOT' : 'Appreciation may not worsen BOT much';
       $('answerText').innerHTML = met
         ? 'When demand is elastic, appreciation strongly reduces export quantity and raises import quantity, so the balance of trade tends to worsen.'
         : 'When demand is inelastic, quantities respond weakly, so the effect on the balance of trade is smaller.';
     }
-    $('formula').innerHTML = `Marshal-Lerner Condition: |PEDx| + |PEDm| &gt; 1<br>Current: ${f(pedx,2)} + ${f(pedm,2)} = ${f(sum,2)} → <b>${conditionText}</b><br>BOT = Export Revenue − Import Expenditure = ${f(xRevenue,1)} − ${f(mExpenditure,1)} = <b>${f(botAfter,1)}</b><br>Export revenue = ${f(xPrice,1)} × ${f(xQty,1)} ÷ 100 = ${f(xRevenue,1)}<br>Import expenditure = ${f(mPrice,1)} × ${f(mQty,1)} ÷ 100 = ${f(mExpenditure,1)}`;
+    $('formula').innerHTML = `Marshal-Lerner Condition: |PEDx| + |PEDm| &gt; 1<br>Current: ${f(pedx,2)} + ${f(pedm,2)} = ${f(sum,2)} → <b>${conditionText}</b><br>BOT = Export Revenue − Import Expenditure = ${f(xRevenue,1)} − ${f(mExpenditure,1)} = <b>${f(botAfter,1)}</b>`;
 
     $('flowLine').innerHTML = mode==='depreciation'
       ? '<span>SGD depreciates</span><b class="arrow">→</b><span>X cheaper, M dearer</span><b class="arrow">→</b><span>Qx rises, Qm falls</span><b class="arrow">→</b><span>PEDx + PEDm decides BOT</span>'
